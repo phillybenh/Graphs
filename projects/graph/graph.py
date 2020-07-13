@@ -22,18 +22,55 @@ class Graph:
         return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        # initialize empty Queue
+        q = Queue()
+        # Create set to store visited nodes
+        visited = set()
+
+        # Init: enqueue the starting node
+        q.enqueue(starting_vertex)
+
+        # While queue isn't empty
+        while q.size() > 0:
+            # Dequeue the first item
+            v = q.dequeue()
+            # If it's not been visited:
+            if v not in visited:
+                # Mark as visited (i.e. add to the visited set)
+                visited.add(v)
+
+                # Do something with the node
+                print(v)
+
+                # Add all neighbors to the queue
+                for next_vert in self.get_neighbors(v):
+                    q.enqueue(next_vert)
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        # Create an empty stack
+        s = Stack()
+
+        # Create a set to store the visited nodes
+        visited = set()
+
+        # Init: push the starting node
+        s.push(starting_vertex)
+
+        # While the stack isn't empty
+        while s.size() > 0:
+            # pop the first item
+            v = s.pop()
+            # If it's not been visited:
+            if v not in visited:
+                # Mark as visited (i.e. add to the visited set)
+                visited.add(v)
+
+                # Do something with the node
+                print(v)
+
+                # Add all neighbors to the stack
+                for next_vert in self.get_neighbors(v):
+                    s.push(next_vert)
 
     def dft_recursive(self, starting_vertex):
         """
