@@ -43,8 +43,8 @@ class Graph:
                 print(v)
 
                 # Add all neighbors to the queue
-                for next_vert in self.get_neighbors(v):
-                    q.enqueue(next_vert)
+                for neighborert in self.get_neighbors(v):
+                    q.enqueue(neighborert)
 
     def dft(self, starting_vertex):
         # Create an empty stack
@@ -69,8 +69,8 @@ class Graph:
                 print(v)
 
                 # Add all neighbors to the stack
-                for next_vert in self.get_neighbors(v):
-                    s.push(next_vert)
+                for neighborert in self.get_neighbors(v):
+                    s.push(neighborert)
 
     def dft_recursive(self, starting_vertex, stack=None):
         
@@ -139,7 +139,8 @@ class Graph:
                 for n in self.get_neighbors(last_vertex):
                     s.push(path + [n])
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, path=None, \
+        visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -147,7 +148,28 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if path is None:
+            path = []
+
+        if visited is None:
+            visited = set()
+
+        visited.add(starting_vertex)
+
+        path = path + [starting_vertex]
+
+        if starting_vertex == destination_vertex:
+            # print(path)
+            return path
+        
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                neighbor_path = self.dfs_recursive(
+                    neighbor, destination_vertex, path, visited)
+                if neighbor_path:
+                    return neighbor_path
+
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
