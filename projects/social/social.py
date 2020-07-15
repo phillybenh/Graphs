@@ -1,4 +1,5 @@
 import random
+from util import Stack, Queue
 
 class User:
     def __init__(self, name):
@@ -74,8 +75,24 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}  
+        
+        # instead of separate traversal and search, combine for better solution
+        # use bfs for shortest paths
+        q = Queue()
+        q.enqueue([user_id])
+        while q.size() > 0:
+            path = q.dequeue()
+            user = path[-1]
+            # If it's not been visited:
+            if user not in visited:
+                visited[user] = path
+                # Add all neighbors to the queue
+                for next_user in self.friendships[user]:
+                    new_path = list(path)
+                    new_path.append(next_user)
+                    q.enqueue(new_path)
+
         return visited
 
 
