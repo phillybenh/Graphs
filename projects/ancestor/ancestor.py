@@ -1,4 +1,4 @@
-from util import Stack, Queue  
+from util import Stack  
 
 def earliest_ancestor(ancestors, starting_node):
     
@@ -11,9 +11,10 @@ def earliest_ancestor(ancestors, starting_node):
     earliest_node = [1, -1]
 
     while s.size() > 0:
+        # print("stack", s)
         path = s.pop()
         last_node = path[-1]
-        # print("path", path)
+        print("path", path)
         # print("ln", last_node)
 
         # the eldest nodes (nodes at top of graph)
