@@ -45,6 +45,7 @@ class AdvTraversal():
         exits = player.current_room.get_exits()
         for e in exits:
             self.graph[self.current_room].update({e: '?'})
+            
         while len(self.graph) < len(room_graph):
             # check what moves are available
             moves = self.available_moves()
@@ -54,8 +55,7 @@ class AdvTraversal():
                 self.random_move(self.current_room, moves)
             # else, backtrack to last room with a new exit
             else:
-                # TODO: implement a BFS or some way back to a room unexplored
-                # print("*****", moves)
+                # else, navigate back to a room with an unexplored exit
                 while moves is False:
                     # pop off the last reverse direction
                     backtrack_dir = self.reverse_path.pop()
@@ -105,11 +105,7 @@ class AdvTraversal():
 
 
 at = AdvTraversal()
-# start_node = 0
 traversal_path = at.traverse_graph()
-# print("Graph: \n", at.graph)
-# print("Path: ", traversal_path)
-# print("Nodes Visited: ", at.num_visited)
 
 # TRAVERSAL TEST
 visited_rooms = set()
