@@ -12,9 +12,9 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
+# map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
@@ -33,32 +33,102 @@ traversal_path = []
 class AdvTraversal():
     def __init__(self):
         self.graph = {}
-        self.num_visited = len(self.graph)
+        # self.num_visited = len(self.graph) TODO: maybe delete
         self.path = []
         self.current_room = player.current_room.id
     
     def traverse_graph(self):
-        # player.current_room = world.starting_room
-        print("****", player.current_room)
-        if self.current_room not in self.graph:
-            self.graph[self.current_room] = {}
-            exits = player.current_room.get_exits()
-            for e in exits:
-                print("****", self.graph[self.current_room].update({e: '?'}))
-        # print("first room", player.current_room)
-        # player.travel('n')
-        # player.travel('n')
-        # print("second room", player.current_room.id)
-        # print("exits", player.current_room.get_exits())
+        self.graph[self.current_room] = {}
+        exits = player.current_room.get_exits()
+        for e in exits:
+            self.graph[self.current_room].update({e: '?'})
+        visited = 1
+        while visited < 19:
+            # if room is new and not in graph
+            # add it and initialize possible exits
+            #####
+
+            # if self.current_room not in self.graph:
+            #     # visited += 1
+            #     self.graph[self.current_room] = {}
+            #     exits = player.current_room.get_exits()
+            #     for e in exits:
+            #         self.graph[self.current_room].update({e: '?'})
+
+            #####
+            
+            # print("first room", player.current_room)
+            # player.travel('n')
+            # player.travel('n')
+            # print("second room", player.current_room.id)
+            # print("exits", player.current_room.get_exits())
+            moves = self.available_moves()
+            # if there is an available new exit
+            if moves != False:
+                self.random_move(self.current_room, moves)
+            # else, backtrack to last room with a new exit
+            else:
+                # TODO: implement a BFS or some way back to a room unexplored
+                # exit 
+                print("new room", player.current_room.id)
+            # self.num_visited += 1 # TODO: remove this
+            visited += 1
+
         return self.path
+    
+    def available_moves(self):
+        start_room = self.current_room
+        exits = self.graph[start_room]
+        new_moves = []
+        for e in exits:
+            if exits[e] == '?':
+                new_moves.append(e)
+        if len(new_moves) > 0:
+            print("new_moves", new_moves)
+            return new_moves
+        else: return False
+
+    
+    def random_move(self, start_room, moves):      
+        direction = random.choice(moves)
+        player.travel(direction)
+
+        # set new room player is in
+        self.current_room = player.current_room.id
+
+        # update graph with connection to new room
+        self.graph[start_room][direction] = self.current_room
+
+        ######
+        self.graph[self.current_room] = {}
+        exits = player.current_room.get_exits()
+        for e in exits:
+            self.graph[self.current_room].update({e: '?'})
+        ######
+
+        # make the connection go both ways
+        if direction == 'n':
+            self.graph[self.current_room]['s'] = start_room
+        elif direction == 'e':
+            self.graph[self.current_room]['w'] = start_room
+        elif direction == 's':
+            self.graph[self.current_room]['n'] = start_room
+        elif direction == 'w':
+            self.graph[self.current_room]['e'] = start_room
+        else:
+            print("Youi broke something in random_move()")
+
+        # add move to traversal path
+        self.path.append(direction)
+        print (self.current_room)
 
 
 at = AdvTraversal()
 # start_node = 0
 traversal_path = at.traverse_graph()
-print("Graph: ", at.graph)
+print("Graph: \n", at.graph)
 print("Path: ", traversal_path)
-print("Nodes Visited: ", at.num_visited)
+# print("Nodes Visited: ", at.num_visited)
 
 # TRAVERSAL TEST
 visited_rooms = set()
