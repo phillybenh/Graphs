@@ -38,3 +38,14 @@
     #                 self.path.append(direction)
     #                 backtrack_count -= 2
     #                 moves = self.available_moves()
+
+   # if direction == 'n':
+#     self.graph[self.current_room]['s'] = start_room
+# elif direction == 'e':
+#     self.graph[self.current_room]['w'] = start_room
+# elif direction == 's':
+#     self.graph[self.current_room]['n'] = start_room
+# elif direction == 'w':
+#     self.graph[self.current_room]['e'] = start_room
+# else:
+#     print("You broke something in random_move()")

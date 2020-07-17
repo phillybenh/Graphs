@@ -34,7 +34,6 @@ traversal_path = []
 class AdvTraversal():
     def __init__(self):
         self.graph = dict()
-        # self.num_visited = len(self.graph) TODO: maybe delete
         self.path = []
         self.dir_reverse = {'n': 's', 'e': 'w', 's': 'n',  'w': 'e'}
         self.reverse_path = []
@@ -75,7 +74,6 @@ class AdvTraversal():
             if exits[e] == '?':
                 new_moves.append(e)
         if len(new_moves) > 0:
-            # print("new_moves", new_moves)
             return new_moves
         else:
             return False
@@ -87,10 +85,6 @@ class AdvTraversal():
         # set new room player is in
         self.current_room = player.current_room.id
 
-        # update graph with connection to new room
-        self.graph[start_room][direction] = self.current_room
-
-        ######
         # if room is new and not in graph
         # add it and initialize possible exits
         if self.current_room not in self.graph:
@@ -98,24 +92,16 @@ class AdvTraversal():
             exits = player.current_room.get_exits()
             for e in exits:
                 self.graph[self.current_room].update({e: '?'})
-        ######
 
+        # update graph with connection to new room
+        self.graph[start_room][direction] = self.current_room
         # make the connection go both ways
-        if direction == 'n':
-            self.graph[self.current_room]['s'] = start_room
-        elif direction == 'e':
-            self.graph[self.current_room]['w'] = start_room
-        elif direction == 's':
-            self.graph[self.current_room]['n'] = start_room
-        elif direction == 'w':
-            self.graph[self.current_room]['e'] = start_room
-        else:
-            print("You broke something in random_move()")
+        self.graph[self.current_room][self.dir_reverse[direction]] = start_room
+        
 
         # add move to traversal path
         self.path.append(direction)
         self.reverse_path.append(self.dir_reverse[direction])
-        # print("reverse_path", self.reverse_path)
 
 
 at = AdvTraversal()
