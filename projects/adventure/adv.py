@@ -46,7 +46,6 @@ class AdvTraversal():
         exits = player.current_room.get_exits()
         for e in exits:
             self.graph[self.current_room].update({e: '?'})
-        visited = 1
         while len(self.graph) < len(room_graph):
             # check what moves are available
             moves = self.available_moves()
@@ -54,11 +53,10 @@ class AdvTraversal():
             if moves != False:
                 # move in a random direction through a new exit
                 self.random_move(self.current_room, moves)
-                visited += 1
             # else, backtrack to last room with a new exit
             else:
                 # TODO: implement a BFS or some way back to a room unexplored
-                print("*****", moves)
+                # print("*****", moves)
                 while moves is False:
                     # pop off the last reverse direction
                     backtrack_dir = self.reverse_path.pop()
@@ -66,8 +64,6 @@ class AdvTraversal():
                     self.current_room = player.current_room.id
                     self.path.append(backtrack_dir)
                     moves = self.available_moves()
-
-                # visited += 1  # TODO: remove this
 
         return self.path
 
@@ -79,7 +75,7 @@ class AdvTraversal():
             if exits[e] == '?':
                 new_moves.append(e)
         if len(new_moves) > 0:
-            print("new_moves", new_moves)
+            # print("new_moves", new_moves)
             return new_moves
         else:
             return False
@@ -97,11 +93,11 @@ class AdvTraversal():
         ######
         # if room is new and not in graph
         # add it and initialize possible exits
-        # rooms traveled to in this function should never already be in graph
-        self.graph[self.current_room] = {}
-        exits = player.current_room.get_exits()
-        for e in exits:
-            self.graph[self.current_room].update({e: '?'})
+        if self.current_room not in self.graph:
+            self.graph[self.current_room] = {}
+            exits = player.current_room.get_exits()
+            for e in exits:
+                self.graph[self.current_room].update({e: '?'})
         ######
 
         # make the connection go both ways
@@ -114,19 +110,19 @@ class AdvTraversal():
         elif direction == 'w':
             self.graph[self.current_room]['e'] = start_room
         else:
-            print("Youi broke something in random_move()")
+            print("You broke something in random_move()")
 
         # add move to traversal path
         self.path.append(direction)
         self.reverse_path.append(self.dir_reverse[direction])
-        print("reverse_path", self.reverse_path)
+        # print("reverse_path", self.reverse_path)
 
 
 at = AdvTraversal()
 # start_node = 0
 traversal_path = at.traverse_graph()
-print("Graph: \n", at.graph)
-print("Path: ", traversal_path)
+# print("Graph: \n", at.graph)
+# print("Path: ", traversal_path)
 # print("Nodes Visited: ", at.num_visited)
 
 # TRAVERSAL TEST
