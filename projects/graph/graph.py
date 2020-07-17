@@ -43,8 +43,8 @@ class Graph:
                 print(v)
 
                 # Add all neighbors to the queue
-                for neighborert in self.get_neighbors(v):
-                    q.enqueue(neighborert)
+                for neighbors in self.get_neighbors(v):
+                    q.enqueue(neighbors)
 
     def dft(self, starting_vertex):
         # Create an empty stack
@@ -69,8 +69,8 @@ class Graph:
                 print(v)
 
                 # Add all neighbors to the stack
-                for neighborert in self.get_neighbors(v):
-                    s.push(neighborert)
+                for neighbors in self.get_neighbors(v):
+                    s.push(neighbors)
 
     def dft_recursive(self, starting_vertex, stack=None):
         
