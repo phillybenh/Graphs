@@ -25,6 +25,14 @@ A *graph* is a collegtion of data represented by nodes and connections between n
      - With this implementation, we get the benefit of built-in edge weights. 
      - 0 denotes no relationship, but any other value that is present represents an edge label or edge weight. 
      - The drawback is that we do not have a built-in association between the vertex values and their index.
+    
+## In-class Spring Challenge Notes:
+ - Different than normal traversal b/c we don't have a stack of places to go.
+     - Backtrack back to node with unexplored edges
+ - Build up dictionary of what we know about the graph so far (example in README)
+ - We don't need to explore every since possible direction for each room
+     - Once you get 500 rooms, you're done
+
 
 
 
